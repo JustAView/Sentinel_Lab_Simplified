@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sentinel Lab — учебный антивирусный стенд</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-mark"><span></span><span></span><span></span></div><div><b>SENTINEL</b><small>SECURITY LAB</small></div></div>
+    <div class="workspace-label">РАБОЧАЯ ОБЛАСТЬ</div>
+    <button class="nav-item active" data-page="overview"><span class="nav-icon">◫</span> Обзор</button>
+    <button class="nav-item" data-page="scanner"><span class="nav-icon">⌕</span> Сканер</button>
+    <button class="nav-item" data-page="programs"><span class="nav-icon">▦</span> Программы</button>
+    <button class="nav-item" data-page="quarantine"><span class="nav-icon">▣</span> Карантин <span class="nav-count" id="nav-quarantine-count">0</span></button>
+    <button class="nav-item" data-page="reports"><span class="nav-icon">▤</span> Отчёты</button>
+    <div class="sidebar-bottom"><div class="online-dot"></div><div><b>Локальная защита</b><small>Учебный режим активен</small></div></div>
+    <div class="sidebar-version">SENTINEL LAB <span>v1.0.0</span></div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar"><div class="crumb">Рабочая область <span>/</span> <b id="page-crumb">Обзор</b></div><div class="top-actions"><span class="mode-pill"><i></i> ДЕМО-СРЕДА</span><div class="avatar">SL</div></div></header>
+
+    <section class="page active" id="page-overview">
+      <div class="hero">
+        <div class="hero-copy"><div class="eyebrow"><span class="eyebrow-line"></span> ЦЕНТР БЕЗОПАСНОСТИ</div>
+          <h1>Ваша защита.<br><em>Под контролем.</em></h1>
+          <p>Проверяйте файлы стенда, управляйте карантином и просматривайте отчёты.</p>
+          <div class="hero-actions"><button class="btn btn-primary" id="hero-scan"><span>⌕</span> Запустить проверку</button><button class="btn btn-ghost" id="hero-simulate">＋ Смоделировать событие</button></div>
+        </div>
+        <div class="shield-visual"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="shield-glow"></div><svg viewBox="0 0 180 205" aria-label="Щит"><path d="M90 10 L151 32 V83 C151 127 124 161 90 184 C56 161 29 127 29 83 V32 Z" fill="url(#g)" stroke="#69e4c1" stroke-width="2"/><path d="M90 25 L137 42 V82 C137 116 117 143 90 163 C63 143 43 116 43 82 V42 Z" fill="#0c262b" stroke="#2e8279" stroke-width="1.5"/><path d="M65 93 L82 110 L116 72" fill="none" stroke="#7af1ce" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#1b6e64"/><stop offset="1" stop-color="#102b32"/></linearGradient></defs></svg><div class="visual-caption"><span class="pulse"></span> СИСТЕМА ГОТОВА</div></div>
+      </div>
+
+      <div class="section-heading"><div><div class="eyebrow">МОНИТОРИНГ</div><h2>Состояние стенда</h2></div><span class="muted small" id="last-check">Проверка ещё не запускалась</span></div>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-top"><span>Объекты стенда</span><span class="stat-icon blue">▤</span></div><div class="stat-value" id="stat-total">8</div><div class="stat-foot">Доступно для проверки</div><div class="mini-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+        <div class="stat-card"><div class="stat-top"><span>Обнаружено</span><span class="stat-icon orange">⌁</span></div><div class="stat-value" id="stat-detected">2</div><div class="stat-foot"><span class="status-text warning">Требуют внимания</span></div><div class="mini-bars orange-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+        <div class="stat-card"><div class="stat-top"><span>В карантине</span><span class="stat-icon purple">▣</span></div><div class="stat-value" id="stat-quarantine">0</div><div class="stat-foot">Изолированные объекты</div><div class="mini-bars purple-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+        <div class="stat-card"><div class="stat-top"><span>Уровень защиты</span><span class="stat-icon green">✓</span></div><div class="stat-value">98<span class="percent">%</span></div><div class="stat-foot"><span class="status-text good">Все модули активны</span></div><div class="progress-track"><div class="progress-fill"></div></div></div>
+      </div>
+
+      <div class="content-grid">
+        <div class="panel activity-panel"><div class="panel-heading"><div><h3>Последние события</h3><p>Активность учебной среды</p></div><button class="text-button" data-goto="reports">Все отчёты ↗</button></div><div id="activity-list" class="activity-list"><div class="empty-state"><div class="empty-symbol">⌁</div><b>Пока тихо</b><span>Запустите проверку или создайте учебное событие.</span></div></div></div>
+        <div class="panel quick-panel"><div class="panel-heading"><div><h3>Быстрые действия</h3><p>Инструменты стенда</p></div></div>
+          <button class="quick-action" id="quick-scan"><span class="quick-icon teal">⌕</span><span><b>Полная проверка</b><small>Проверить все учебные объекты</small></span><span class="arrow">→</span></button>
+          <button class="quick-action" id="quick-event"><span class="quick-icon amber">＋</span><span><b>Создать событие</b><small>Добавить подозрительное изменение</small></span><span class="arrow">→</span></button>
+          <button class="quick-action" data-goto="quarantine"><span class="quick-icon violet">▣</span><span><b>Открыть карантин</b><small>Изолированные объекты и восстановление</small></span><span class="arrow">→</span></button>
+        </div>
+      </div>
+      <div class="footer-note"><span class="footer-lock">◇</span> <b>Безопасная песочница</b><span>Стенд работает только с демонстрационными данными внутри интерфейса.</span></div>
+    </section>
+
+    <section class="page" id="page-scanner">
+      <div class="page-title-row"><div><div class="eyebrow">АНАЛИЗ ОБЪЕКТОВ</div><h1>Сканер</h1><p class="page-subtitle">Проверка учебных объектов по демонстрационным правилам.</p></div><button class="btn btn-primary" id="start-scan"><span>⌕</span> Начать проверку</button></div>
+      <div class="scan-overview panel"><div class="scan-ring" id="scan-ring"><div><b id="scan-percent">0%</b><small>ПРОВЕРЕНО</small></div></div><div class="scan-info"><div class="eyebrow">ТЕКУЩАЯ ПРОВЕРКА</div><h2 id="scan-status-title">Готов к запуску</h2><p id="scan-status-text">Нажмите «Начать проверку», чтобы проверить объекты учебного стенда.</p><div class="scan-progress"><div id="scan-progress-fill"></div></div><div class="scan-meta"><span id="scan-count">0 из 8 объектов</span><span id="scan-elapsed">Ожидание</span></div></div><div class="scan-side"><div class="scan-side-icon">⌘</div><b>Эвристический анализ</b><span>Имитация проверки по типу события, подписи и контрольному статусу.</span></div></div>
+      <div class="panel table-panel"><div class="panel-heading"><div><h3>Объекты для проверки</h3><p>Учебные записи, не реальные файлы на диске</p></div><span class="table-count" id="scanner-count">8 объектов</span></div><div class="table-wrap"><table><thead><tr><th>ОБЪЕКТ</th><th>ТИП</th><th>СТАТУС</th><th>ПОСЛЕДНЕЕ СОБЫТИЕ</th><th></th></tr></thead><tbody id="scanner-rows"></tbody></table></div></div>
+    </section>
+
+    <section class="page" id="page-programs">
+      <div class="page-title-row"><div><div class="eyebrow">НАБОР УЧЕБНЫХ ПРИЛОЖЕНИЙ</div><h1>Программы</h1><p class="page-subtitle">Безопасные мини-версии привычных приложений, входящие в пакет стенда.</p></div></div>
+      <div class="notice"><span>ⓘ</span><div><b>Что это за программы?</b><p>Это самостоятельные учебные аналоги для демонстрации, а не копии установленных на вашем компьютере приложений. Они не требуют прав администратора и не меняют настройки Windows.</p></div></div>
+      <div class="program-grid">
+        <article class="program-card"><div class="program-icon teal">◎</div><div><h3>Safe Browser</h3><p>Учебная оболочка браузера для открытия введённых веб-адресов.</p></div><a class="btn btn-ghost" href="programs/browser.html" target="_blank" rel="noopener">Открыть ↗</a></article>
+        <article class="program-card"><div class="program-icon blue">▤</div><div><h3>Safe Editor</h3><p>Текстовый редактор с возможностью сохранить заметку в файл.</p></div><a class="btn btn-ghost" href="programs/editor.html" target="_blank" rel="noopener">Открыть ↗</a></article>
+        <article class="program-card"><div class="program-icon purple">＋</div><div><h3>Safe Calculator</h3><p>Простой калькулятор для базовых арифметических действий.</p></div><a class="btn btn-ghost" href="programs/calculator.html" target="_blank" rel="noopener">Открыть ↗</a></article>
+        <article class="program-card"><div class="program-icon orange">▶</div><div><h3>Safe Player</h3><p>Воспроизведение выбранного пользователем аудио или видео.</p></div><a class="btn btn-ghost" href="programs/player.html" target="_blank" rel="noopener">Открыть ↗</a></article>
+        <article class="program-card"><div class="program-icon teal">▣</div><div><h3>Lab Files</h3><p>Просмотр списка файлов, которые доступны локальному сканеру.</p></div><a class="btn btn-ghost" href="programs/files.html" target="_blank" rel="noopener">Открыть ↗</a></article>
+      </div>
+    </section>
+
+    <section class="page" id="page-quarantine">
+      <div class="page-title-row"><div><div class="eyebrow">ИЗОЛЯЦИЯ ОБЪЕКТОВ</div><h1>Карантин</h1><p class="page-subtitle">Управляйте обнаруженными учебными объектами: изолируйте или восстановите состояние.</p></div><div class="quarantine-total"><b id="quarantine-big-count">0</b><span>объектов изолировано</span></div></div>
+      <div class="notice"><span>ⓘ</span><div><b>Как это работает</b><p>Карантин меняет только статус объекта в демонстрационной модели. Файлы на вашем компьютере не перемещаются и не изменяются.</p></div></div>
+      <div class="panel table-panel"><div class="panel-heading"><div><h3>Изолированные объекты</h3><p>Объекты можно восстановить в исходное состояние</p></div></div><div class="table-wrap"><table><thead><tr><th>ОБЪЕКТ</th><th>ПРИЧИНА</th><th>ДАТА ИЗОЛЯЦИИ</th><th>СТАТУС</th><th>ДЕЙСТВИЕ</th></tr></thead><tbody id="quarantine-rows"></tbody></table></div><div id="quarantine-empty" class="empty-state large-empty"><div class="empty-symbol">▣</div><b>Карантин пуст</b><span>После проверки подозрительные объекты можно изолировать.</span><button class="btn btn-ghost" data-goto="scanner">Перейти к сканеру</button></div></div>
+    </section>
+
+    <section class="page" id="page-reports">
+      <div class="page-title-row"><div><div class="eyebrow">ЖУРНАЛ БЕЗОПАСНОСТИ</div><h1>Отчёты</h1><p class="page-subtitle">История проверок, обнаружений и действий пользователя.</p></div><button class="btn btn-primary" id="export-report">↓ Экспорт отчёта</button></div>
+      <div class="report-summary"><div class="report-tile"><span>Всего событий</span><b id="report-total">0</b></div><div class="report-tile"><span>Проверок выполнено</span><b id="report-scans">0</b></div><div class="report-tile"><span>Обнаружений</span><b id="report-detections">0</b></div><div class="report-tile"><span>Действий с карантином</span><b id="report-actions">0</b></div></div>
+      <div class="panel table-panel"><div class="panel-heading"><div><h3>Журнал событий</h3><p>Самые новые события отображаются сверху</p></div><button class="text-button" id="clear-log">Очистить журнал</button></div><div id="report-list" class="report-list"></div></div>
+    </section>
+
+    <footer class="main-footer"><span>© 2026 SENTINEL LAB</span><span>Учебный проект · Локальный режим</span><span><i class="online-dot"></i> Все системы работают</span></footer>
+  </main>
+</div>
+
+<div class="toast-region" id="toast-region"></div>
+<div class="modal-backdrop" id="event-modal"><div class="modal"><button class="modal-close" id="modal-close">×</button><div class="modal-symbol">＋</div><div class="eyebrow">УЧЕБНЫЙ СЦЕНАРИЙ</div><h2>Смоделировать событие</h2><p>Добавьте демонстрационный объект с подозрительным поведением. Реальные файлы не затрагиваются.</p><label for="event-name">Название объекта</label><input id="event-name" maxlength="60" placeholder="Например, неизвестный_процесс.exe"><label for="event-type">Тип события</label><select id="event-type"><option value="Изменение автозапуска">Изменение автозапуска</option><option value="Подозрительная активность">Подозрительная активность</option><option value="Неизвестная подпись">Неизвестная подпись</option><option value="Изменение системной настройки">Изменение системной настройки</option></select><div class="modal-actions"><button class="btn btn-ghost" id="modal-cancel">Отмена</button><button class="btn btn-primary" id="create-event">Создать событие</button></div></div></div>
+<script src="app.js"></script>
+</body>
+</html>
